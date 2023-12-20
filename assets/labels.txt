@@ -1,0 +1,5 @@
+0 hockey
+1 baseball
+2 bowling
+3 boxing
+4 golf
