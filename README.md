@@ -23,17 +23,24 @@ Ce projet est une application mobile développée avec Flutter et Firebase pour 
 #### Ajout d'une Nouvelle Activité avec Catégorie Automatique
 - À partir de la page de profil, les utilisateurs peuvent ajouter une nouvelle activité.
 - Utilisation de Teachable Machine pour définir automatiquement la catégorie en fonction de l'image sélectionnée.
+- Ajoutez le dossier "Dataset" contenant les images de test sur Google Drive.
 
 ### Configuration du Projet
 
-Clonez le dépôt : https://github.com/chaourad/Activite-Ai.git
-Naviguez vers le répertoire du projet : cd Activite-Ai
-Installez les dépendances : flutter pub get
-Exécutez l'application : flutter run
+- Clonez le dépôt : https://github.com/chaourad/Activite-Ai.git
+- Naviguez vers le répertoire du projet : cd Activite-Ai
+- Installez les dépendances : flutter pub get
+- Exécutez l'application : flutter run
 
 ### Remarques
 - Assurez-vous que votre appareil ou émulateur est correctement configuré pour exécuter l'application Flutter.
 - Une connexion Internet est requise pour utiliser les fonctionnalités liées à Firebase et Teachable Machine.
+
+### Identifiants de Connexion
+Pour tester l'application, vous pouvez utiliser les identifiants de connexion suivants :
+
+Nom d'utilisateur : cha@gmail.com
+Mot de passe : 123456
 
 #### Démo
 <img width="263" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/9202c030-a434-48c7-83eb-0d5a7a07c43e">
