@@ -34,3 +34,5 @@ Exécutez l'application : flutter run
 ### Remarques
 - Assurez-vous que votre appareil ou émulateur est correctement configuré pour exécuter l'application Flutter.
 - Une connexion Internet est requise pour utiliser les fonctionnalités liées à Firebase et Teachable Machine.
+
+#### Démo
