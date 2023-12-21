@@ -14,7 +14,7 @@ class ListeActivite extends StatefulWidget {
 
 class _ListeActiviteState extends State<ListeActivite> {
   FirebaseFirestore db = FirebaseFirestore.instance;
-  String selectedCategory = "Toutes"; // Catégorie sélectionnée par défaut
+  String selectedCategory = "Toutes"; 
   Set<String> uniqueCategories = Set();
 
   @override
@@ -26,7 +26,6 @@ class _ListeActiviteState extends State<ListeActivite> {
       ),
       body: Column(
         children: [
-          // Zone des boutons de catégories
           Container(
             padding: const EdgeInsets.all(8.0),
             height: 80,
@@ -38,7 +37,6 @@ class _ListeActiviteState extends State<ListeActivite> {
                   return Center(child: CircularProgressIndicator());
                 }
 
-                // Utiliser un ensemble pour stocker des catégories uniques
                 uniqueCategories = {"Toutes"};
                 uniqueCategories.addAll(snapshot.data!.docs
                     .map((doc) => doc["categorie"].toString()));
@@ -69,7 +67,6 @@ class _ListeActiviteState extends State<ListeActivite> {
               },
             ),
           ),
-          // Liste des activités filtrées par catégorie
           Expanded(
             child: StreamBuilder<QuerySnapshot>(
               stream: selectedCategory == "Toutes"

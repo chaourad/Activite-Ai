@@ -30,7 +30,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       });
       if (user != null) {
         loadUserInfo();
-        // Mettez à jour emailController lors de l'authentification
         emailController.text = user.email ?? '';
       }
     });
@@ -155,17 +154,14 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       DocumentReference userDocRef =
           firestore.collection("profils").doc(_user!.uid);
 
-      // Vérifier si le document existe
       DocumentSnapshot userDocSnapshot = await userDocRef.get();
 
       if (!userDocSnapshot.exists) {
-        // Créer le document avec les données initiales
         await userDocRef.set({
-          'email': _user!.email ?? '', // Exemple de champ obligatoire
+          'email': _user!.email ?? '', 
         });
       }
 
-      // Mettre à jour le document avec les données du profil
       await userDocRef.update({
         'adresse': adressController.text,
         'codePostal': int.tryParse(postalCodeController.text) ?? 0,

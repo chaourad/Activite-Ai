@@ -96,17 +96,15 @@ class _AjoutActivityState extends State<AjoutActivity> {
 
     TaskSnapshot taskSnapshot = await storageReference.putFile(File(_image!.path));
 
-    // Récupérez l'URL de téléchargement à partir du TaskSnapshot
     String photoUrl = await taskSnapshot.ref.getDownloadURL();
 
-    // Ajoutez l'activité à Firestore
     Map<String, dynamic> data = {
       "lieu": lieu.text,
       "categorie": cate.text,
       "prix": int.parse(price.text),
       "nbr_min": int.parse(nbr_minimal.text),
       "titre": titre.text,
-      "image": photoUrl, // Utilisez l'URL de téléchargement de l'image
+      "image": photoUrl, 
     };
 
     await FirebaseFirestore.instance.collection("activite").add(data);
@@ -118,7 +116,6 @@ class _AjoutActivityState extends State<AjoutActivity> {
     ));
   } catch (e) {
     print("Error during file upload: $e");
-    // Gérez l'erreur de manière appropriée (affichez un message à l'utilisateur, enregistrez l'erreur, etc.)
   }
 }
 
