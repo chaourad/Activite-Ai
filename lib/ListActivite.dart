@@ -123,7 +123,7 @@ class _ListeActiviteState extends State<ListeActivite> {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
                               image: DecorationImage(
-                                image: FileImage(File(activity.image)),
+                                image:  NetworkImage(activity.image),
                                 fit: BoxFit.cover,
                               ),
                             ),

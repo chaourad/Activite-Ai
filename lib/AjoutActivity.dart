@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:typed_data';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-import 'package:flutter/material.dart';
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:tflite_v2/tflite_v2.dart';
 
 class AjoutActivity extends StatefulWidget {
@@ -57,8 +54,8 @@ class _AjoutActivityState extends State<AjoutActivity> {
     }
   }
 
-  Future detectimage(File image) async {
-    int startTime = new DateTime.now().millisecondsSinceEpoch;
+  Future<void> detectimage(File image) async {
+    int startTime = DateTime.now().millisecondsSinceEpoch;
     var recognitions = await Tflite.runModelOnImage(
       path: image.path,
       numResults: 6,
@@ -72,7 +69,7 @@ class _AjoutActivityState extends State<AjoutActivity> {
       cate.text = categories;
     });
     print(_recognitions);
-    int endTime = new DateTime.now().millisecondsSinceEpoch;
+    int endTime = DateTime.now().millisecondsSinceEpoch;
     print("Inference took ${endTime - startTime}ms");
   }
 
@@ -90,6 +87,42 @@ class _AjoutActivityState extends State<AjoutActivity> {
       categories = "";
     });
   }
+
+ Future<void> _uploadFile() async {
+  try {
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child("images/${DateTime.now().millisecondsSinceEpoch}.jpg");
+
+    TaskSnapshot taskSnapshot = await storageReference.putFile(File(_image!.path));
+
+    // Récupérez l'URL de téléchargement à partir du TaskSnapshot
+    String photoUrl = await taskSnapshot.ref.getDownloadURL();
+
+    // Ajoutez l'activité à Firestore
+    Map<String, dynamic> data = {
+      "lieu": lieu.text,
+      "categorie": cate.text,
+      "prix": int.parse(price.text),
+      "nbr_min": int.parse(nbr_minimal.text),
+      "titre": titre.text,
+      "image": photoUrl, // Utilisez l'URL de téléchargement de l'image
+    };
+
+    await FirebaseFirestore.instance.collection("activite").add(data);
+
+    clearFields();
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text('Activité enregistrée avec succès'),
+      duration: Duration(seconds: 2),
+    ));
+  } catch (e) {
+    print("Error during file upload: $e");
+    // Gérez l'erreur de manière appropriée (affichez un message à l'utilisateur, enregistrez l'erreur, etc.)
+  }
+}
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -164,48 +197,19 @@ class _AjoutActivityState extends State<AjoutActivity> {
               ),
               const SizedBox(height: 32),
               ElevatedButton(
-                onPressed: () async {
-                  try {
-                    // Conversion des champs numériques
-                    int prix = int.parse(price.text);
-                    int nbrMin = int.parse(nbr_minimal.text);
+               onPressed: () async {
+    try {
+      // Conversion des champs numériques
+      int prix = int.parse(price.text);
+      int nbrMin = int.parse(nbr_minimal.text);
 
-                    // Télécharger l'image vers Firebase Storage
-                    Reference storageReference = FirebaseStorage.instance
-                        .ref()
-                        .child(
-                            "images/${DateTime.now().millisecondsSinceEpoch}.jpg");
-                    UploadTask uploadTask =
-                        storageReference.putFile(File(_image!.path));
-                    TaskSnapshot taskSnapshot =
-                        await uploadTask.whenComplete(() => null);
-                    String photoUrl = await taskSnapshot.ref.getDownloadURL();
+      await _uploadFile();
 
-                    Map<String, dynamic> data = {
-                      "lieu": lieu.text,
-                      "categorie": cate.text,
-                      "prix": prix,
-                      "nbr_min": nbrMin,
-                      "titre": titre.text,
-                      "image":
-                          photoUrl, // Utiliser l'URL de téléchargement de l'image
-                    };
-
-                    // Ajouter l'activité à Firestore
-                    await FirebaseFirestore.instance
-                        .collection("activite")
-                        .add(data);
-
-                    clearFields();
-                    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                      content: Text('Activité enregistrée avec succès'),
-                      duration: Duration(seconds: 2),
-                    ));
-                  } catch (e) {
-                    // Gérer les erreurs (afficher un message d'erreur, enregistrer l'erreur, etc.)
-                    print("Error adding activity: $e");
-                  }
-                },
+      // ... (Votre code existant)
+    } catch (e) {
+      print("Error adding activity: $e");
+    }
+  },
                 child: const Text("Ajouter un événement"),
               ),
             ],
@@ -215,3 +219,4 @@ class _AjoutActivityState extends State<AjoutActivity> {
     );
   }
 }
+

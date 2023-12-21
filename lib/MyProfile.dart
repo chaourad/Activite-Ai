@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
-import 'dart:io';
 
 class ProfileWidget extends StatefulWidget {
   const ProfileWidget({Key? key}) : super(key: key);
@@ -32,6 +30,8 @@ class _ProfileWidgetState extends State<ProfileWidget> {
       });
       if (user != null) {
         loadUserInfo();
+        // Mettez à jour emailController lors de l'authentification
+        emailController.text = user.email ?? '';
       }
     });
   }
@@ -48,7 +48,6 @@ class _ProfileWidgetState extends State<ProfileWidget> {
             profileSnapshot.data() as Map<String, dynamic>;
 
         setState(() {
-          emailController.text = _user!.email ?? '';
           adressController.text = data['adresse'] ?? '';
           postalCodeController.text = data['codePostal'].toString() ?? '';
           cityController.text = data['ville'] ?? '';
@@ -153,7 +152,21 @@ class _ProfileWidgetState extends State<ProfileWidget> {
         return;
       }
 
-      await firestore.collection("profils").doc(_user!.uid).update({
+      DocumentReference userDocRef =
+          firestore.collection("profils").doc(_user!.uid);
+
+      // Vérifier si le document existe
+      DocumentSnapshot userDocSnapshot = await userDocRef.get();
+
+      if (!userDocSnapshot.exists) {
+        // Créer le document avec les données initiales
+        await userDocRef.set({
+          'email': _user!.email ?? '', // Exemple de champ obligatoire
+        });
+      }
+
+      // Mettre à jour le document avec les données du profil
+      await userDocRef.update({
         'adresse': adressController.text,
         'codePostal': int.tryParse(postalCodeController.text) ?? 0,
         'anniversaire': anniversaireController.text,
