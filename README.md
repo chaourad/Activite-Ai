@@ -36,3 +36,11 @@ Exécutez l'application : flutter run
 - Une connexion Internet est requise pour utiliser les fonctionnalités liées à Firebase et Teachable Machine.
 
 #### Démo
+<img width="263" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/9202c030-a434-48c7-83eb-0d5a7a07c43e">
+<img width="264" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/d4228e15-835a-473e-994f-7107923343fb">
+<img width="257" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/0e52cbcf-e54d-4dae-9425-7ef51a0b57e1">
+<img width="254" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/ff73ff64-2075-4a60-b021-04a0d7bcfb27">
+<img width="266" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/5e50eca8-bc7a-48c9-ae19-e287aa6d79d2">
+<img width="263" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/161e14a2-ef56-4bb8-8f38-30868d7309cd">
+<img width="259" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/8c762f9f-6f1e-4031-876b-62c86df1eb01">
+<img width="262" alt="image" src="https://github.com/chaourad/Activite-Ai/assets/109220808/cfc990e4-24a8-4c86-a6fd-abf02e0e0a8f">
